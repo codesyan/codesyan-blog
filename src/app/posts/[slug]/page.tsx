@@ -3,6 +3,9 @@ import Link from "next/link";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import { getAllSlugs, getPostBySlug, getAllPosts } from "@/lib/posts";
 import { Giscus } from "@/components/giscus";
+import { mdxComponents } from "@/components/mdx-components";
+import { TableOfContents } from "@/components/table-of-contents";
+import { siteConfig } from "@/lib/site";
 import type { Metadata } from "next";
 
 export async function generateStaticParams() {
@@ -22,11 +25,25 @@ export async function generateMetadata({
   return {
     title: post.title,
     description: post.description,
+    alternates: {
+      canonical: `/posts/${post.slug}`,
+    },
+    authors: [siteConfig.author],
+    keywords: post.tags,
     openGraph: {
       title: post.title,
       description: post.description,
+      url: `/posts/${post.slug}`,
+      siteName: siteConfig.name,
       type: "article",
       publishedTime: post.date,
+      authors: [siteConfig.author.name],
+      tags: post.tags,
+    },
+    twitter: {
+      card: "summary",
+      title: post.title,
+      description: post.description,
     },
   };
 }
@@ -45,22 +62,28 @@ export default async function PostPage({
 
   const allPosts = getAllPosts();
   const currentIndex = allPosts.findIndex((p) => p.slug === slug);
-  const prevPost = currentIndex < allPosts.length - 1 ? allPosts[currentIndex + 1] : null;
+  const prevPost =
+    currentIndex < allPosts.length - 1 ? allPosts[currentIndex + 1] : null;
   const nextPost = currentIndex > 0 ? allPosts[currentIndex - 1] : null;
 
   return (
-    <article className="mx-auto max-w-3xl px-4 py-16">
-      <header className="mb-8">
+    <article className="mx-auto max-w-3xl px-5 py-14 sm:py-20">
+      <header className="mb-10 border-b border-border pb-10">
         <Link
           href="/"
-          className="text-sm text-muted hover:text-foreground transition-colors mb-4 inline-block"
+          className="mb-8 inline-flex items-center rounded-full border border-border bg-surface px-3 py-1.5 text-sm text-muted shadow-sm transition-colors hover:border-accent hover:text-accent"
         >
           ← 返回文章列表
         </Link>
-        <h1 className="text-2xl font-semibold tracking-tight mt-2">
+        <h1 className="mt-2 text-3xl font-bold leading-tight text-foreground sm:text-5xl">
           {post.title}
         </h1>
-        <div className="mt-3 flex items-center gap-3 text-sm text-muted">
+        {post.description && (
+          <p className="mt-5 max-w-2xl text-lg leading-8 text-muted">
+            {post.description}
+          </p>
+        )}
+        <div className="mt-6 flex flex-wrap items-center gap-2 text-sm text-muted">
           <time dateTime={post.date}>
             {new Date(post.date).toLocaleDateString("zh-CN", {
               year: "numeric",
@@ -69,11 +92,11 @@ export default async function PostPage({
             })}
           </time>
           {post.tags.length > 0 && (
-            <div className="flex gap-1.5">
+            <div className="flex flex-wrap gap-1.5">
               {post.tags.map((tag) => (
                 <span
                   key={tag}
-                  className="rounded-full bg-border/50 px-2 py-0.5 text-xs"
+                  className="rounded-full border border-border bg-surface px-2.5 py-1 text-xs text-muted"
                 >
                   {tag}
                 </span>
@@ -83,17 +106,20 @@ export default async function PostPage({
         </div>
       </header>
 
-      <div className="prose prose-zinc dark:prose-invert">
-        <MDXRemote source={post.content} />
+      <TableOfContents items={post.toc} />
+
+      <div className="prose scroll-smooth">
+        <MDXRemote source={post.content} components={mdxComponents} />
       </div>
 
       {(prevPost || nextPost) && (
-        <nav className="mt-16 grid grid-cols-2 gap-4 border-t border-border pt-8">
+        <nav className="mt-16 grid gap-3 border-t border-border pt-8 sm:grid-cols-2">
           {prevPost ? (
             <Link
               href={`/posts/${prevPost.slug}`}
-              className="text-sm hover:text-muted transition-colors"
+              className="rounded-lg border border-border bg-surface p-4 text-sm shadow-sm transition-colors hover:border-accent hover:text-accent"
             >
+              <span className="mb-1 block text-xs text-muted">上一篇</span>
               ← {prevPost.title}
             </Link>
           ) : (
@@ -102,8 +128,9 @@ export default async function PostPage({
           {nextPost ? (
             <Link
               href={`/posts/${nextPost.slug}`}
-              className="text-sm text-right hover:text-muted transition-colors"
+              className="rounded-lg border border-border bg-surface p-4 text-sm text-right shadow-sm transition-colors hover:border-accent hover:text-accent"
             >
+              <span className="mb-1 block text-xs text-muted">下一篇</span>
               {nextPost.title} →
             </Link>
           ) : (
