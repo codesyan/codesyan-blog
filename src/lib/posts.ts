@@ -18,6 +18,7 @@ export interface Post {
   tags: string[];
   content: string;
   toc: TocItem[];
+  readingMinutes: number;
 }
 
 interface PostFrontmatter {
@@ -105,6 +106,16 @@ function extractToc(content: string): TocItem[] {
   return toc;
 }
 
+function getReadingMinutes(content: string): number {
+  const cjkMatches = content.match(/[\u4e00-\u9fff]/g) ?? [];
+  const latinWords = content
+    .replace(/[\u4e00-\u9fff]/g, " ")
+    .match(/[A-Za-z0-9_]+/g) ?? [];
+  const weightedWords = cjkMatches.length / 2 + latinWords.length;
+
+  return Math.max(1, Math.ceil(weightedWords / 220));
+}
+
 function readPost(fileName: string): Post {
   const slug = fileName.replace(/\.mdx$/, "");
   const fullPath = path.join(postsDirectory, fileName);
@@ -117,6 +128,7 @@ function readPost(fileName: string): Post {
     ...frontmatter,
     content: content || "",
     toc: extractToc(content || ""),
+    readingMinutes: getReadingMinutes(content || ""),
   };
 }
 
@@ -149,4 +161,35 @@ export function getAllSlugs(): string[] {
     .readdirSync(postsDirectory)
     .filter((fileName) => fileName.endsWith(".mdx"))
     .map((fileName) => fileName.replace(/\.mdx$/, ""));
+}
+
+export function getAllTags(): { name: string; count: number }[] {
+  const tagCounts = new Map<string, number>();
+
+  for (const post of getAllPosts()) {
+    for (const tag of post.tags) {
+      tagCounts.set(tag, (tagCounts.get(tag) ?? 0) + 1);
+    }
+  }
+
+  return Array.from(tagCounts, ([name, count]) => ({ name, count })).sort((a, b) =>
+    a.name.localeCompare(b.name, "zh-CN"),
+  );
+}
+
+export function getPostsByTag(tag: string): Post[] {
+  return getAllPosts().filter((post) => post.tags.includes(tag));
+}
+
+export function getArchiveGroups(): { year: string; posts: Post[] }[] {
+  const groups = new Map<string, Post[]>();
+
+  for (const post of getAllPosts()) {
+    const year = post.date.slice(0, 4);
+    groups.set(year, [...(groups.get(year) ?? []), post]);
+  }
+
+  return Array.from(groups, ([year, posts]) => ({ year, posts })).sort((a, b) =>
+    b.year.localeCompare(a.year),
+  );
 }

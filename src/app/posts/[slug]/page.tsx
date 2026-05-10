@@ -1,11 +1,14 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { MDXRemote } from "next-mdx-remote/rsc";
+import rehypePrettyCode from "rehype-pretty-code";
+import remarkGfm from "remark-gfm";
 import { getAllSlugs, getPostBySlug, getAllPosts } from "@/lib/posts";
 import { Giscus } from "@/components/giscus";
 import { mdxComponents } from "@/components/mdx-components";
 import { TableOfContents } from "@/components/table-of-contents";
 import { siteConfig } from "@/lib/site";
+import { formatDate } from "@/lib/format";
 import type { Metadata } from "next";
 
 export async function generateStaticParams() {
@@ -84,13 +87,8 @@ export default async function PostPage({
           </p>
         )}
         <div className="mt-6 flex flex-wrap items-center gap-2 text-sm text-muted">
-          <time dateTime={post.date}>
-            {new Date(post.date).toLocaleDateString("zh-CN", {
-              year: "numeric",
-              month: "long",
-              day: "numeric",
-            })}
-          </time>
+          <time dateTime={post.date}>{formatDate(post.date)}</time>
+          <span>约 {post.readingMinutes} 分钟</span>
           {post.tags.length > 0 && (
             <div className="flex flex-wrap gap-1.5">
               {post.tags.map((tag) => (
@@ -109,7 +107,23 @@ export default async function PostPage({
       <TableOfContents items={post.toc} />
 
       <div className="prose scroll-smooth">
-        <MDXRemote source={post.content} components={mdxComponents} />
+        <MDXRemote
+          source={post.content}
+          components={mdxComponents}
+          options={{
+            mdxOptions: {
+              remarkPlugins: [remarkGfm],
+              rehypePlugins: [
+                [
+                  rehypePrettyCode,
+                  {
+                    theme: "github-dark",
+                  },
+                ],
+              ],
+            },
+          }}
+        />
       </div>
 
       {(prevPost || nextPost) && (

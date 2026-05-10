@@ -1,8 +1,12 @@
 import Link from "next/link";
-import { getAllPosts } from "@/lib/posts";
+import { PostCard } from "@/components/post-card";
+import { TagPill } from "@/components/tag-pill";
+import { getAllPosts, getAllTags } from "@/lib/posts";
 
 export default function Home() {
   const posts = getAllPosts();
+  const tags = getAllTags();
+  const featuredPosts = posts.slice(0, 3);
 
   return (
     <div className="mx-auto max-w-5xl px-5 py-14 sm:py-20">
@@ -19,9 +23,25 @@ export default function Home() {
         </p>
       </section>
 
+      {tags.length > 0 && (
+        <section className="mb-14">
+          <div className="mb-4 flex items-end justify-between border-b border-border pb-3">
+            <h2 className="text-lg font-semibold">主题标签</h2>
+            <Link href="/tags" className="text-sm text-muted hover:text-accent">
+              查看全部
+            </Link>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {tags.map((tag) => (
+              <TagPill key={tag.name} tag={tag.name} count={tag.count} />
+            ))}
+          </div>
+        </section>
+      )}
+
       <section>
         <div className="mb-6 flex items-end justify-between border-b border-border pb-3">
-          <h2 className="text-lg font-semibold">文章列表</h2>
+          <h2 className="text-lg font-semibold">最新文章</h2>
           <span className="text-sm text-muted">{posts.length} 篇</span>
         </div>
         {posts.length === 0 ? (
@@ -30,41 +50,8 @@ export default function Home() {
           </p>
         ) : (
           <div className="grid gap-4">
-            {posts.map((post) => (
-              <article
-                key={post.slug}
-                className="rounded-lg border border-border bg-surface p-5 shadow-sm transition-colors hover:border-accent"
-              >
-                <Link href={`/posts/${post.slug}`} className="group block">
-                  <h3 className="text-xl font-semibold transition-colors group-hover:text-accent">
-                    {post.title}
-                  </h3>
-                  <p className="mt-2 max-w-2xl text-sm leading-6 text-muted line-clamp-2">
-                    {post.description}
-                  </p>
-                  <div className="mt-4 flex flex-wrap items-center gap-2 text-xs text-muted">
-                    <time dateTime={post.date}>
-                      {new Date(post.date).toLocaleDateString("zh-CN", {
-                        year: "numeric",
-                        month: "long",
-                        day: "numeric",
-                      })}
-                    </time>
-                    {post.tags.length > 0 && (
-                      <div className="flex flex-wrap gap-1.5">
-                        {post.tags.map((tag) => (
-                          <span
-                            key={tag}
-                            className="rounded-full border border-border bg-surface-muted px-2.5 py-1 text-xs"
-                          >
-                            {tag}
-                          </span>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                </Link>
-              </article>
+            {featuredPosts.map((post) => (
+              <PostCard key={post.slug} post={post} />
             ))}
           </div>
         )}

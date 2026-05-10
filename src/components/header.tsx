@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { LogoMark } from "@/components/logo";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 export function Header() {
   return (
@@ -12,21 +13,34 @@ export function Header() {
           <LogoMark className="size-10 drop-shadow-sm" />
           <span>山石玩AI</span>
         </Link>
-        <nav className="flex items-center gap-2 text-sm text-muted">
+        <nav className="flex items-center gap-1 text-sm text-muted sm:gap-2">
           <Link
             href="/"
             className="rounded-full px-3 py-1.5 transition-colors hover:bg-surface-muted hover:text-foreground"
           >
             文章
           </Link>
+          <Link
+            href="/archive"
+            className="rounded-full px-3 py-1.5 transition-colors hover:bg-surface-muted hover:text-foreground"
+          >
+            归档
+          </Link>
+          <Link
+            href="/search"
+            className="rounded-full px-3 py-1.5 transition-colors hover:bg-surface-muted hover:text-foreground"
+          >
+            搜索
+          </Link>
           <a
             href="https://github.com/codesyan"
             target="_blank"
             rel="noopener noreferrer"
-            className="rounded-full px-3 py-1.5 transition-colors hover:bg-surface-muted hover:text-foreground"
+            className="hidden rounded-full px-3 py-1.5 transition-colors hover:bg-surface-muted hover:text-foreground sm:inline"
           >
             GitHub
           </a>
+          <ThemeToggle />
         </nav>
       </div>
     </header>

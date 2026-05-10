@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { isValidElement } from "react";
+import { CodeBlock } from "@/components/code-block";
 import { slugifyHeading } from "@/lib/posts";
 
 function getNodeText(node: ReactNode): string {
@@ -34,4 +35,17 @@ function Heading({
 export const mdxComponents = {
   h2: (props: { children: ReactNode }) => <Heading level={2} {...props} />,
   h3: (props: { children: ReactNode }) => <Heading level={3} {...props} />,
+  pre: CodeBlock,
+  Callout: ({
+    title,
+    children,
+  }: {
+    title?: string;
+    children: ReactNode;
+  }) => (
+    <aside className="my-6 rounded-lg border border-border bg-surface-muted p-4">
+      {title && <p className="mb-2 font-semibold text-foreground">{title}</p>}
+      <div className="text-muted">{children}</div>
+    </aside>
+  ),
 };

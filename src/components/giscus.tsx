@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export function Giscus() {
   const ref = useRef<HTMLDivElement>(null);
+  const [status, setStatus] = useState<"loading" | "ready" | "error">("loading");
 
   useEffect(() => {
     const container = ref.current;
@@ -23,9 +24,25 @@ export function Giscus() {
     script.setAttribute("data-lang", "zh-CN");
     script.setAttribute("crossorigin", "anonymous");
     script.async = true;
+    script.onload = () => setStatus("ready");
+    script.onerror = () => setStatus("error");
 
     container.appendChild(script);
   }, []);
 
-  return <div ref={ref} className="mt-16" />;
+  return (
+    <section className="mt-16 border-t border-border pt-8">
+      <h2 className="text-lg font-semibold">讨论</h2>
+      <div className="mt-4 rounded-lg border border-border bg-surface p-4 shadow-sm">
+        <div ref={ref} />
+        {status !== "ready" && (
+          <p className="text-sm text-muted">
+            {status === "loading"
+              ? "评论正在加载。"
+              : "评论加载失败，可能是网络暂时无法连接到 Giscus。"}
+          </p>
+        )}
+      </div>
+    </section>
+  );
 }
