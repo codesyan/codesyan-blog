@@ -33,7 +33,7 @@ export function Header() {
             搜索
           </Link>
           <a
-            href="https://github.com/codesyan"
+            href="https://github.com/hishanshi"
             target="_blank"
             rel="noopener noreferrer"
             className="hidden rounded-full px-3 py-1.5 transition-colors hover:bg-surface-muted hover:text-foreground sm:inline"

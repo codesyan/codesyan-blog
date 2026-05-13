@@ -4,8 +4,8 @@ export const siteConfig = {
   description: "记录 AI 时代的编码之路，分享 AI 工具、编程技巧和开发感悟。",
   url: "https://codesyan.com",
   author: {
-    name: "CodesYan",
-    url: "https://github.com/codesyan",
+    name: "hishanshi",
+    url: "https://github.com/hishanshi",
   },
   email: "hi@codesyan.com",
 };

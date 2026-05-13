@@ -12,7 +12,7 @@ export function Giscus() {
 
     const script = document.createElement("script");
     script.src = "https://giscus.app/client.js";
-    script.setAttribute("data-repo", "codesyan/codesyan-blog");
+    script.setAttribute("data-repo", "hishanshi/shanshi-blog");
     script.setAttribute("data-repo-id", "R_kgDOSZgTUw");
     script.setAttribute("data-category-id", "DIC_kwDOSZgTU84C8uL8");
     script.setAttribute("data-mapping", "pathname");
