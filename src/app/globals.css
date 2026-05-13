@@ -196,10 +196,6 @@ body {
 }
 
 @media (prefers-color-scheme: dark) {
-  .prose {
-    --tw-prose-links: var(--accent);
-  }
-
   .prose pre {
     background: #0d1117;
   }
