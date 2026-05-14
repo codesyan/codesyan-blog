@@ -4,7 +4,6 @@ import { MDXRemote } from "next-mdx-remote/rsc";
 import rehypePrettyCode from "rehype-pretty-code";
 import remarkGfm from "remark-gfm";
 import { getAllSlugs, getPostBySlug, getAllPosts } from "@/lib/posts";
-import { Giscus } from "@/components/giscus";
 import { mdxComponents } from "@/components/mdx-components";
 import { TableOfContents } from "@/components/table-of-contents";
 import { siteConfig } from "@/lib/site";
@@ -153,8 +152,6 @@ export default async function PostPage({
               )}
             </nav>
           )}
-
-          <Giscus />
         </div>
 
         <TableOfContents items={post.toc} />
