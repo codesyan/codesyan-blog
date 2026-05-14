@@ -43,7 +43,7 @@ export const mdxComponents = {
     title?: string;
     children: ReactNode;
   }) => (
-    <aside className="my-6 rounded-lg border border-border bg-surface-muted p-4">
+    <aside className="my-6 rounded-lg border border-border bg-surface-muted/82 p-4">
       {title && <p className="mb-2 font-semibold text-foreground">{title}</p>}
       <div className="text-muted">{children}</div>
     </aside>

@@ -2,14 +2,16 @@
 @plugin "@tailwindcss/typography";
 
 :root {
-  --background: #fbfaf7;
-  --foreground: #1f2328;
-  --muted: #697077;
-  --border: #e5ded3;
-  --surface: #fffdf9;
-  --surface-muted: #f4efe6;
-  --accent: #0f766e;
-  --accent-soft: #dff3ef;
+  --background: #f6f3ec;
+  --foreground: #171a1d;
+  --muted: #6b7075;
+  --border: #ded8cd;
+  --surface: #fffdf8;
+  --surface-muted: #ece8df;
+  --accent: #266d7a;
+  --accent-strong: #a45f2a;
+  --accent-soft: #dce9ea;
+  --shadow-soft: 0 20px 70px rgb(31 36 40 / 8%);
   color-scheme: light;
 }
 
@@ -21,6 +23,7 @@
   --color-surface: var(--surface);
   --color-surface-muted: var(--surface-muted);
   --color-accent: var(--accent);
+  --color-accent-strong: var(--accent-strong);
   --color-accent-soft: var(--accent-soft);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
@@ -28,39 +31,45 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #101110;
-    --foreground: #ece8df;
-    --muted: #a49e94;
-    --border: #2e302d;
-    --surface: #171816;
-    --surface-muted: #22231f;
-    --accent: #5eead4;
-    --accent-soft: #12312d;
+    --background: #111315;
+    --foreground: #f1eee7;
+    --muted: #a9adb2;
+    --border: #30353a;
+    --surface: #181b1f;
+    --surface-muted: #22272d;
+    --accent: #9bd3e6;
+    --accent-strong: #e4a35f;
+    --accent-soft: #243744;
+    --shadow-soft: 0 24px 80px rgb(0 0 0 / 30%);
     color-scheme: dark;
   }
 }
 
 html.light {
-  --background: #fbfaf7;
-  --foreground: #1f2328;
-  --muted: #697077;
-  --border: #e5ded3;
-  --surface: #fffdf9;
-  --surface-muted: #f4efe6;
-  --accent: #0f766e;
-  --accent-soft: #dff3ef;
+  --background: #f6f3ec;
+  --foreground: #171a1d;
+  --muted: #6b7075;
+  --border: #ded8cd;
+  --surface: #fffdf8;
+  --surface-muted: #ece8df;
+  --accent: #266d7a;
+  --accent-strong: #a45f2a;
+  --accent-soft: #dce9ea;
+  --shadow-soft: 0 20px 70px rgb(31 36 40 / 8%);
   color-scheme: light;
 }
 
 html.dark {
-  --background: #101110;
-  --foreground: #ece8df;
-  --muted: #a49e94;
-  --border: #2e302d;
-  --surface: #171816;
-  --surface-muted: #22231f;
-  --accent: #5eead4;
-  --accent-soft: #12312d;
+  --background: #111315;
+  --foreground: #f1eee7;
+  --muted: #a9adb2;
+  --border: #30353a;
+  --surface: #181b1f;
+  --surface-muted: #22272d;
+  --accent: #9bd3e6;
+  --accent-strong: #e4a35f;
+  --accent-soft: #243744;
+  --shadow-soft: 0 24px 80px rgb(0 0 0 / 30%);
   color-scheme: dark;
 }
 
@@ -80,12 +89,65 @@ body {
   color: var(--foreground);
 }
 
+html.dark ::selection {
+  background: #36546b;
+  color: #f8fbff;
+}
+
 .site-bg {
   background-color: var(--background);
   background:
-    linear-gradient(180deg, color-mix(in srgb, var(--surface-muted) 70%, transparent), transparent 360px),
-    radial-gradient(circle at 50% 0, color-mix(in srgb, var(--accent-soft) 46%, transparent), transparent 300px),
+    linear-gradient(90deg, color-mix(in srgb, var(--border) 26%, transparent) 1px, transparent 1px),
+    linear-gradient(180deg, color-mix(in srgb, var(--border) 24%, transparent) 1px, transparent 1px),
     var(--background);
+  background-size: 56px 56px, 56px 56px, auto;
+  background-position: center top, center top, 0 0;
+}
+
+.page-shell {
+  width: min(100% - 2.5rem, 72rem);
+  margin-inline: auto;
+  padding-block: 3.5rem 5rem;
+}
+
+.page-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--surface) 82%, transparent);
+  padding: 0.35rem 0.7rem;
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.page-kicker::before {
+  content: "";
+  width: 0.42rem;
+  height: 0.42rem;
+  border-radius: 999px;
+  background: var(--accent-strong);
+}
+
+.section-rule {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 1rem;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 0.85rem;
+}
+
+.surface-panel {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--surface) 90%, transparent);
+  box-shadow: var(--shadow-soft);
+  backdrop-filter: blur(18px);
 }
 
 .prose {
@@ -96,7 +158,7 @@ body {
   max-width: none;
   color: var(--foreground);
   font-size: 1.0625rem;
-  line-height: 1.9;
+  line-height: 1.88;
 }
 
 .prose > * + * {
@@ -108,12 +170,14 @@ body {
   scroll-margin-top: 6rem;
   color: var(--foreground);
   font-weight: 700;
-  line-height: 1.35;
+  line-height: 1.32;
 }
 
 .prose h2 {
-  margin-top: 2.75rem;
-  font-size: 1.5rem;
+  margin-top: 3rem;
+  border-top: 1px solid var(--border);
+  padding-top: 1.5rem;
+  font-size: 1.55rem;
 }
 
 .prose h3 {
@@ -151,7 +215,8 @@ body {
 .prose blockquote {
   margin: 1.6rem 0;
   border-left: 3px solid var(--accent);
-  background: var(--surface-muted);
+  border-radius: 0 8px 8px 0;
+  background: color-mix(in srgb, var(--surface-muted) 72%, transparent);
   padding: 1rem 1.2rem;
   color: var(--foreground);
 }
@@ -198,5 +263,12 @@ body {
 @media (prefers-color-scheme: dark) {
   .prose pre {
     background: #0d1117;
+  }
+}
+
+@media (max-width: 640px) {
+  .page-shell {
+    width: min(100% - 2rem, 72rem);
+    padding-block: 2.75rem 4rem;
   }
 }

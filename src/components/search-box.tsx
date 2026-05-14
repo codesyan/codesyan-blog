@@ -36,17 +36,19 @@ export function SearchBox({ posts }: { posts: SearchPost[] }) {
 
   return (
     <div>
-      <label className="sr-only" htmlFor="blog-search">
-        搜索文章
-      </label>
-      <input
-        id="blog-search"
-        type="search"
-        value={query}
-        onChange={(event) => setQuery(event.target.value)}
-        placeholder="搜索标题、摘要或标签"
-        className="w-full rounded-lg border border-border bg-surface px-4 py-3 text-base text-foreground shadow-sm outline-none transition-colors placeholder:text-muted focus:border-accent"
-      />
+      <div className="surface-panel p-2">
+        <label className="sr-only" htmlFor="blog-search">
+          搜索文章
+        </label>
+        <input
+          id="blog-search"
+          type="search"
+          value={query}
+          onChange={(event) => setQuery(event.target.value)}
+          placeholder="搜索标题、摘要或标签"
+          className="w-full rounded-md border border-transparent bg-transparent px-4 py-3 text-base text-foreground outline-none transition-colors placeholder:text-muted focus:border-accent focus:bg-surface"
+        />
+      </div>
 
       <div className="mt-6 text-sm text-muted">
         {normalizedQuery ? `找到 ${results.length} 篇文章` : `共 ${posts.length} 篇文章`}
@@ -56,7 +58,7 @@ export function SearchBox({ posts }: { posts: SearchPost[] }) {
         {results.map((post) => (
           <article
             key={post.slug}
-            className="rounded-lg border border-border bg-surface p-5 shadow-sm transition-colors hover:border-accent"
+            className="rounded-lg border border-border bg-surface/88 p-5 shadow-sm transition-colors hover:border-accent"
           >
             <Link href={`/posts/${post.slug}`} className="group block">
               <h2 className="text-xl font-semibold transition-colors group-hover:text-accent">

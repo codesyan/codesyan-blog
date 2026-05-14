@@ -4,16 +4,16 @@ import { ThemeToggle } from "@/components/theme-toggle";
 
 export function Header() {
   return (
-    <header className="sticky top-0 z-50 border-b border-border bg-background/85 backdrop-blur-xl">
-      <div className="mx-auto flex h-16 max-w-5xl items-center justify-between px-5">
+    <header className="sticky top-0 z-50 border-b border-border bg-background/82 backdrop-blur-xl">
+      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5">
         <Link
           href="/"
           className="flex items-center gap-3 text-base font-semibold text-foreground transition-colors hover:text-accent"
         >
-          <LogoMark className="size-10 drop-shadow-sm" />
+          <LogoMark className="size-9 drop-shadow-sm" />
           <span>山石玩AI</span>
         </Link>
-        <nav className="flex items-center gap-1 text-sm text-muted sm:gap-2">
+        <nav className="flex items-center gap-1 rounded-full border border-border bg-surface/72 p-1 text-sm text-muted shadow-sm sm:gap-1.5">
           <Link
             href="/"
             className="rounded-full px-3 py-1.5 transition-colors hover:bg-surface-muted hover:text-foreground"

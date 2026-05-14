@@ -70,15 +70,16 @@ export default async function PostPage({
   const nextPost = currentIndex > 0 ? allPosts[currentIndex - 1] : null;
 
   return (
-    <article className="mx-auto max-w-3xl px-5 py-14 sm:py-20">
-      <header className="mb-10 border-b border-border pb-10">
+    <article className="page-shell">
+      <header className="mb-10 max-w-3xl border-b border-border pb-10">
         <Link
           href="/"
-          className="mb-8 inline-flex items-center rounded-full border border-border bg-surface px-3 py-1.5 text-sm text-muted shadow-sm transition-colors hover:border-accent hover:text-accent"
+          className="mb-8 inline-flex items-center rounded-full border border-border bg-surface/82 px-3 py-1.5 text-sm text-muted shadow-sm transition-colors hover:border-accent hover:text-accent"
         >
           ← 返回文章列表
         </Link>
-        <h1 className="mt-2 text-3xl font-bold leading-tight text-foreground sm:text-5xl">
+        <div className="page-kicker mb-5">Article</div>
+        <h1 className="text-3xl font-semibold leading-tight text-foreground sm:text-5xl">
           {post.title}
         </h1>
         {post.description && (
@@ -94,7 +95,7 @@ export default async function PostPage({
               {post.tags.map((tag) => (
                 <span
                   key={tag}
-                  className="rounded-full border border-border bg-surface px-2.5 py-1 text-xs text-muted"
+                  className="rounded-full border border-border bg-surface/82 px-2.5 py-1 text-xs text-muted"
                 >
                   {tag}
                 </span>
@@ -104,56 +105,60 @@ export default async function PostPage({
         </div>
       </header>
 
-      <TableOfContents items={post.toc} />
+      <div className="grid gap-10 lg:grid-cols-[minmax(0,44rem)_16rem] lg:items-start">
+        <div>
+          <div className="prose scroll-smooth">
+            <MDXRemote
+              source={post.content}
+              components={mdxComponents}
+              options={{
+                mdxOptions: {
+                  remarkPlugins: [remarkGfm],
+                  rehypePlugins: [
+                    [
+                      rehypePrettyCode,
+                      {
+                        theme: "github-dark",
+                      },
+                    ],
+                  ],
+                },
+              }}
+            />
+          </div>
 
-      <div className="prose scroll-smooth">
-        <MDXRemote
-          source={post.content}
-          components={mdxComponents}
-          options={{
-            mdxOptions: {
-              remarkPlugins: [remarkGfm],
-              rehypePlugins: [
-                [
-                  rehypePrettyCode,
-                  {
-                    theme: "github-dark",
-                  },
-                ],
-              ],
-            },
-          }}
-        />
+          {(prevPost || nextPost) && (
+            <nav className="mt-16 grid gap-3 border-t border-border pt-8 sm:grid-cols-2">
+              {prevPost ? (
+                <Link
+                  href={`/posts/${prevPost.slug}`}
+                  className="rounded-lg border border-border bg-surface/88 p-4 text-sm shadow-sm transition-colors hover:border-accent hover:text-accent"
+                >
+                  <span className="mb-1 block text-xs text-muted">上一篇</span>
+                  ← {prevPost.title}
+                </Link>
+              ) : (
+                <div />
+              )}
+              {nextPost ? (
+                <Link
+                  href={`/posts/${nextPost.slug}`}
+                  className="rounded-lg border border-border bg-surface/88 p-4 text-right text-sm shadow-sm transition-colors hover:border-accent hover:text-accent"
+                >
+                  <span className="mb-1 block text-xs text-muted">下一篇</span>
+                  {nextPost.title} →
+                </Link>
+              ) : (
+                <div />
+              )}
+            </nav>
+          )}
+
+          <Giscus />
+        </div>
+
+        <TableOfContents items={post.toc} />
       </div>
-
-      {(prevPost || nextPost) && (
-        <nav className="mt-16 grid gap-3 border-t border-border pt-8 sm:grid-cols-2">
-          {prevPost ? (
-            <Link
-              href={`/posts/${prevPost.slug}`}
-              className="rounded-lg border border-border bg-surface p-4 text-sm shadow-sm transition-colors hover:border-accent hover:text-accent"
-            >
-              <span className="mb-1 block text-xs text-muted">上一篇</span>
-              ← {prevPost.title}
-            </Link>
-          ) : (
-            <div />
-          )}
-          {nextPost ? (
-            <Link
-              href={`/posts/${nextPost.slug}`}
-              className="rounded-lg border border-border bg-surface p-4 text-sm text-right shadow-sm transition-colors hover:border-accent hover:text-accent"
-            >
-              <span className="mb-1 block text-xs text-muted">下一篇</span>
-              {nextPost.title} →
-            </Link>
-          ) : (
-            <div />
-          )}
-        </nav>
-      )}
-
-      <Giscus />
     </article>
   );
 }

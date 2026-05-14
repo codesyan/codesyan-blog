@@ -4,7 +4,7 @@ export function TableOfContents({ items }: { items: TocItem[] }) {
   if (items.length === 0) return null;
 
   return (
-    <aside className="mb-10 rounded-lg border border-border bg-surface p-5 shadow-sm">
+    <aside className="surface-panel p-5 lg:sticky lg:top-24">
       <h2 className="text-sm font-semibold text-foreground">文章目录</h2>
       <nav className="mt-3">
         <ol className="space-y-2 text-sm text-muted">

@@ -38,10 +38,10 @@ export default async function TagPage({ params }: TagPageProps) {
   }
 
   return (
-    <div className="mx-auto max-w-5xl px-5 py-14 sm:py-20">
+    <div className="page-shell">
       <header className="mb-10 border-b border-border pb-8">
-        <p className="text-sm font-medium text-accent">标签</p>
-        <h1 className="mt-3 text-3xl font-bold tracking-tight text-foreground sm:text-5xl">
+        <div className="page-kicker mb-4">Tag</div>
+        <h1 className="text-3xl font-semibold text-foreground sm:text-5xl">
           {tagName}
         </h1>
         <p className="mt-4 text-base text-muted">{posts.length} 篇文章</p>

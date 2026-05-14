@@ -3,9 +3,9 @@ import Link from "next/link";
 export default function NotFound() {
   return (
     <div className="mx-auto flex max-w-3xl flex-1 flex-col justify-center px-5 py-24">
-      <div className="rounded-lg border border-border bg-surface p-8 shadow-sm">
-        <p className="text-sm font-medium text-accent">404</p>
-        <h1 className="mt-4 text-3xl font-bold tracking-tight text-foreground sm:text-5xl">
+      <div className="surface-panel p-8">
+        <div className="page-kicker">404</div>
+        <h1 className="mt-4 text-3xl font-bold text-foreground sm:text-5xl">
           这页没有找到
         </h1>
         <p className="mt-5 max-w-xl text-base leading-8 text-muted">

@@ -46,13 +46,13 @@ export function ThemeToggle() {
       onClick={toggleTheme}
       aria-label={isDark ? "切换到浅色主题" : "切换到深色主题"}
       title={isDark ? "切换到浅色主题" : "切换到深色主题"}
-      className="inline-flex size-11 shrink-0 items-center justify-center rounded-full border border-border bg-surface text-foreground shadow-sm transition-colors hover:border-accent hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+      className="inline-flex size-9 shrink-0 items-center justify-center rounded-full bg-surface-muted text-foreground shadow-sm transition-colors hover:bg-accent-soft hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
     >
       {isDark ? (
         <svg
           aria-hidden="true"
           viewBox="0 0 24 24"
-          className="size-5"
+          className="size-4"
           fill="none"
         >
           <path
@@ -66,7 +66,7 @@ export function ThemeToggle() {
         <svg
           aria-hidden="true"
           viewBox="0 0 24 24"
-          className="size-5"
+          className="size-4"
           fill="none"
         >
           <circle cx="12" cy="12" r="3.5" stroke="currentColor" strokeWidth="2" />

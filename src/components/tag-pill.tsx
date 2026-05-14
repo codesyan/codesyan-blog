@@ -4,10 +4,10 @@ export function TagPill({ tag, count }: { tag: string; count?: number }) {
   return (
     <Link
       href={`/tags/${encodeURIComponent(tag)}`}
-      className="rounded-full border border-border bg-surface-muted px-2.5 py-1 text-xs text-muted transition-colors hover:border-accent hover:text-accent"
+      className="rounded-full border border-border bg-surface/78 px-2.5 py-1 text-xs font-medium text-muted transition-colors hover:border-accent hover:bg-accent-soft hover:text-foreground"
     >
       {tag}
-      {typeof count === "number" && <span className="ml-1 text-muted">({count})</span>}
+      {typeof count === "number" && <span className="ml-1 text-muted">/{count}</span>}
     </Link>
   );
 }

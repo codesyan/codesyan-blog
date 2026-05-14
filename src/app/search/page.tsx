@@ -21,9 +21,10 @@ export default function SearchPage() {
   }));
 
   return (
-    <div className="mx-auto max-w-5xl px-5 py-14 sm:py-20">
+    <div className="page-shell">
       <header className="mb-10 border-b border-border pb-8">
-        <h1 className="text-3xl font-bold tracking-tight text-foreground sm:text-5xl">
+        <div className="page-kicker mb-4">Search</div>
+        <h1 className="text-3xl font-semibold text-foreground sm:text-5xl">
           搜索
         </h1>
         <p className="mt-4 max-w-2xl text-base leading-8 text-muted">

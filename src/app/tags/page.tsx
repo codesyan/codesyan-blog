@@ -14,9 +14,10 @@ export default function TagsPage() {
   const tags = getAllTags();
 
   return (
-    <div className="mx-auto max-w-5xl px-5 py-14 sm:py-20">
+    <div className="page-shell">
       <header className="mb-10 border-b border-border pb-8">
-        <h1 className="text-3xl font-bold tracking-tight text-foreground sm:text-5xl">
+        <div className="page-kicker mb-4">Tags</div>
+        <h1 className="text-3xl font-semibold text-foreground sm:text-5xl">
           标签
         </h1>
         <p className="mt-4 max-w-2xl text-base leading-8 text-muted">
@@ -25,7 +26,7 @@ export default function TagsPage() {
       </header>
 
       {tags.length === 0 ? (
-        <p className="rounded-lg border border-border bg-surface p-6 text-sm text-muted shadow-sm">
+        <p className="surface-panel p-6 text-sm text-muted">
           暂时还没有标签。
         </p>
       ) : (
